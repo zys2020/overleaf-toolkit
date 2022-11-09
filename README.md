@@ -14,8 +14,12 @@ instance of [Overleaf](https://overleaf.com) into a single docker-compose file. 
 $ git clone git@github.com:zys2020/overleaf-toolkit.git ./overleaf-toolkit
 $ cd overleaf-toolkit/lib
 $ docker-compose -p overleaf -f docker-compose.overleaf.yml up -d  # backward end 
+
+# install all kinds of packages used in the academic writing in the TeXLive 
+$ docker exec sharelatex tlmgr install scheme-full
+$ docker exec sharelatex tlmgr path add
 ```
-It will take a long time to install packages used in daily academic writing.
+It will take a long time to install packages used in daily academic writing. Therefore, recommend to install necessary packages manually and then install a full version
 # Previous Guidelines
 
 ## Getting Started

@@ -20,5 +20,3 @@ services:
           SHARELATEX_REDIS_HOST: "redis"
           REDIS_HOST: "6379"
         env_file: ../config/variables.env
-        # install all kinds of packages used in the academic writing in the TeXLive 
-        command: tlmgr install scheme-full
