@@ -1,13 +1,14 @@
 ---
 version: '2.2'
 services:
-
     mongo:
         restart: always
-        image: "${MONGO_IMAGE}"
+        # image: "${MONGO_IMAGE}"
+        image: "mongo:4.0"
         container_name: mongo
         volumes:
-            - "${MONGO_DATA_PATH}:/data/db"
+            # - "${MONGO_DATA_PATH}:/data/db"
+            - "../data/mongo:/data/db"
         expose:
             - 27017
         healthcheck:
@@ -15,7 +16,6 @@ services:
             interval: 10s
             timeout: 10s
             retries: 5
-
     sharelatex:
       depends_on:
         mongo:

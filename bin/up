@@ -39,6 +39,9 @@ function __main__() {
   fi
   check_config
   exec "$TOOLKIT_ROOT/bin/docker-compose" up "$@"
+  
+  # # install all kinds of packages used in the academic writing in the TeXLive 
+  # nohup docker exec sharelatex tlmgr install scheme-full >> "$TOOLKIT_ROOT/install.log" 2>&1 &
 }
 
 __main__ "$@"

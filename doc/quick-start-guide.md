@@ -10,14 +10,16 @@ The Overleaf Toolkit depends on the following programs:
 
 We recommend that you install the most recent version of docker and docker-compose that 
 are available on your system.
-
+```
+$ yum install bash docker docker-compose -y
+```
 
 ## Install
 
 First, let's clone this git repository to your machine:
 
 ```sh
-$ git clone https://github.com/overleaf/toolkit.git ./overleaf-toolkit
+$ git clone git@github.com:zys2020/overleaf-toolkit.git ./overleaf-toolkit
 ```
 
 Next let's move into this directory:
@@ -53,7 +55,7 @@ Which will print something like this:
 The `README.md` file contains some useful information about the project, while the `doc` directory contains all of the documentation you will need to use the toolkit. The `config` directory will contain your own local configuration files (which we will create in just a moment), while the `bin` directory contains a collection of scripts that manage your overleaf instance.
 
 
-## Initialise Configuration
+## Initialize Configuration
 
 
 Let's create our local configuration, by running `bin/init`:
@@ -75,6 +77,41 @@ These are the three configuration files you will interact with:
 - `variables.env` : environment variables loaded into the docker container
 - `version` : the version of the docker images to use
 
+## **Modify Configuration**
+
+Some default values in the original project conflicting with the deployment host server have to be modified into other feasible values. Therefore, files in the [directory](../lib/config-seed/) are modified as follows
+```txt
+#### config/overleaf.rc ####
+SHARELATEX_LISTEN_IP=0.0.0.0  # open for all host
+SHARELATEX_PORT=12000  # free port 
+```
+
+**The process of installation takes a long time.**
+```sh
+#### docker-compose.overleaf.yml ####
+# install all kinds of packages used in the academic writing in the TeXLive 
+command: tlmgr install scheme-full
+```
+### **Integrated Docker-Compose File**
+- The `docker-compose.overleaf.yml` integrated with `docker-compose.mongo.yml, docker-compose.redis.yml, docker-compose.nginx.yml, docker-compose.base.yml` except `docker-compose.sibling.yml` is utilized to start the local overleaf project.
+- refer to: `https://yeasy.gitbook.io/docker_practice/compose`
+
+```sh
+#### The latest version ####
+cd lib
+docker-compose -p overleaf -f docker-compose.overleaf.yml up  # front end for debugging
+docker-compose -p overleaf -f docker-compose.overleaf.yml up -d  # backward end for deploying 
+
+#### The old version ####
+docker-compose -p overleaf -f docker-compose.base.yml -f docker-compose.redis.yml -f docker-compose.mongo.yml -f docker-compose.sibling-containers.yml -f docker-compose.nginx.yml up
+```
+### **Deployment**
+
+```sh
+git clone git@github.com:zys2020/overleaf-toolkit.git ./overleaf-toolkit
+cd overleaf-toolkit/lib
+docker-compose -p overleaf -f docker-compose.overleaf.yml up -d  # backward end 
+```
 
 ## Starting Up
 

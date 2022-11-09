@@ -1,16 +1,16 @@
 ---
 version: '2.2'
 services:
-
     redis:
         restart: always
-        image: "${REDIS_IMAGE}"
+        # image: "${REDIS_IMAGE}"
+        image: "redis:5.0"
         volumes:
-            - "${REDIS_DATA_PATH}:/data"
+            # - "${REDIS_DATA_PATH}:/data"
+            - "../data/redis:/data"
         container_name: redis
         expose:
             - 6379
-
     sharelatex:
       depends_on:
         redis:

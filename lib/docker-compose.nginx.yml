@@ -1,16 +1,21 @@
 ---
 version: '2.2'
 services:
-
   nginx:
-    image: "${NGINX_IMAGE}"
+    # image: "${NGINX_IMAGE}"
+    image: "nginx:1.19-alpine"
     ports:
-      - "${NGINX_TLS_LISTEN_IP:-0.0.0.0}:${TLS_PORT:-443}:443"
-      - "${NGINX_HTTP_LISTEN_IP:-127.0.1.1}:${NGINX_HTTP_PORT:-80}:80"
+      # - "${NGINX_TLS_LISTEN_IP:-0.0.0.0}:${TLS_PORT:-443}:443"
+      # - "${NGINX_HTTP_LISTEN_IP:-127.0.1.1}:${NGINX_HTTP_PORT:-80}:80"
+      - "127.0.1.1:0.0.0.0:443:443"
+      - "127.0.1.1:127.0.1.1:80:80"
     volumes:
-      - "${TLS_PRIVATE_KEY_PATH}:/certs/nginx_key.pem:ro"
-      - "${TLS_CERTIFICATE_PATH}:/certs/nginx_certificate.pem:ro"
-      - "${NGINX_CONFIG_PATH}:/etc/nginx/nginx.conf:ro"
+      # - "${TLS_PRIVATE_KEY_PATH}:/certs/nginx_key.pem:ro"
+      # - "${TLS_CERTIFICATE_PATH}:/certs/nginx_certificate.pem:ro"
+      # - "${NGINX_CONFIG_PATH}:/etc/nginx/nginx.conf:ro"
+      - "../config/nginx/certs/overleaf_key-pem:/certs/nginx_key-pem:ro"
+      - "../config/nginx/certs/overleaf_certificate-pem:/certs/nginx_certificate-pem:ro"
+      - "../config/nginx/nginx-conf:/etc/nginx/nginx-conf:ro"
     restart: always
     container_name: nginx
     depends_on:
